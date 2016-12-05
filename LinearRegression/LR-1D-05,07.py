@@ -2,12 +2,24 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+def get_r2(X, Y):
+    w = np.linalg.solve( X.T.dot(X), X.T.dot(Y) )
+    Yhat = X.dot(w)
+
+    d1 = Y - Yhat
+    d2 = Y - Y.mean()
+    r2 = 1 - d1.dot(d1) / d2.dot(d2)
+    return r2
+
 # Using pandas
-A = pd.read_csv('data_1d.csv', header=None)
+df = pd.read_csv('data_1d.csv', header=None)
+df.columns = ['x', 'y']
+df['1'] = 1
 
 # Turning X and Y into numpy arrays
-X = A[0].as_matrix()
-Y = A[1].as_matrix()
+X = df['x'].as_matrix()
+X1 = df[['1','x']].as_matrix()
+Y = df['y'].as_matrix()
 
 # # Plot the values X and Y
 # plt.scatter(X, Y)
@@ -42,8 +54,9 @@ plt.scatter(X, Y)
 plt.plot(X, Yhat)
 plt.show()
 
-# Calculate R-squared
-d1 = Y - Yhat
-d2 = Y - Y.mean()
-r2 = 1 - d1.dot(d1) / d2.dot(d2)
-print("The R-squared is %s" % r2)
+# # Calculate R-squared
+# d1 = Y - Yhat
+# d2 = Y - Y.mean()
+# r2 = 1 - d1.dot(d1) / d2.dot(d2)
+# print("The R-squared is %s" % r2)
+print("The R-squared is %s" % get_r2(X1, Y))
