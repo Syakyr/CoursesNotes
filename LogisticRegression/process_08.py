@@ -9,8 +9,8 @@ def get_data():
     Y = data[:, -1]  # user_action data
 
     # Regularisation (Normalisation)
-    X[:,1] = (X[:,1] - X[:,1].mean() / X[:,1].std())
-    X[:,2] = (X[:,2] - X[:,2].mean() / X[:,1].std())
+    X[:,1] = (X[:,1] - X[:,1].mean()) / X[:,1].std()
+    X[:,2] = (X[:,2] - X[:,2].mean()) / X[:,2].std()
 
     # Accommodate the matrix to one-hot encoding for time_of_day
     N, D = X.shape # X is 500 * 5 matrix
@@ -28,7 +28,7 @@ def get_data():
 
     # Method 2:
     Z = np.zeros((N, 4)) # Creates 500*4 matrix just for the encoding
-    Z[np.arange(N), X[:,D-1].astype(np.int32)] = 1 # Uses time_of_day value to determine the placement of '1' into its respective columns
+    Z[np.arange(N), X[:,D-1].astype(np.int32)  ] = 1 # Uses time_of_day value to determine the placement of '1' into its respective columns
     X2[:,-4:] = Z # Slot Z back into the amended matrix
     assert(np.abs(X2[:,-4:] - Z).sum() < 10e-10) # Asserts that all Z values are copied properly, i.e. the sum is 0
 
