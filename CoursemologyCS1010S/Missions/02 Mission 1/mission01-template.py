@@ -13,6 +13,9 @@ from runes import *
 # Task 1 #
 ##########
 
+clear_all()
+show(rcross_bb)
+
 def mosaic(params):
     # Fill in code here
     return
