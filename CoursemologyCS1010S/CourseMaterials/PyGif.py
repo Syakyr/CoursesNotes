@@ -104,45 +104,33 @@ RAWMODE = {
      +---------------+
   9  | | | |   |     |       <Packed Fields>               See below
      +---------------+
-
      <Packed Fields>  =      Local Color Table Flag        1 Bit
                              Interlace Flag                1 Bit
                              Sort Flag                     1 Bit
                              Reserved                      2 Bits
                              Size of Local Color Table     3 Bits
-
            i) Image Separator - Identifies the beginning of an Image
            Descriptor. This field contains the fixed packedue 0x2C.
-
            ii) Image Left Position - Column number, in pixels, of the left edge
            of the image, with respect to the left edge of the Logical Screen.
            Leftmost column of the Logical Screen is 0.
-
            iii) Image Top Position - Row number, in pixels, of the top edge of
            the image with respect to the top edge of the Logical Screen. Top
            row of the Logical Screen is 0.
-
            iv) Image Width - Width of the image in pixels.
-
            v) Image Height - Height of the image in pixels.
-
            vi) Local Color Table Flag - Indicates the presence of a Local Color
            Table immediately following this Image Descriptor. (This field is
            the most significant bit of the byte.)
-
-
            packedues :    0 -   Local Color Table is not present. Use
                              Global Color Table if available.
                        1 -   Local Color Table present, and to follow
                              immediately after this Image Descriptor.
-
            vii) Interlace Flag - Indicates if the image is interlaced. An image
            is interlaced in a four-pass interlace pattern; see Appendix E for
            details.
-
            packedues :    0 - Image is not interlaced.
                        1 - Image is interlaced.
-
             viii) Sort Flag - Indicates whether the Local Color Table is
             sorted.  If the flag is set, the Local Color Table is sorted, in
             order of decreasing importance. Typically, the order would be
@@ -150,11 +138,9 @@ RAWMODE = {
             a decoder, with fewer available colors, in choosing the best subset
             of colors; the decoder may use an initial segment of the table to
             render the graphic.
-
             packedues :    0 -   Not ordered.
                         1 -   Ordered by decreasing importance, most
                               important color first.
-
             ix) Size of Local Color Table - If the Local Color Table Flag is
             set to 1, the packedue in this field is used to calculate the number
             of bytes contained in the Local Color Table. To determine that
@@ -168,27 +154,21 @@ RAWMODE = {
 ## Animations:
 """
 23. Graphic Control Extension.
-
       a. Description. The Graphic Control Extension contains parameters used
       when processing a graphic rendering block. The scope of this extension is
       the first graphic rendering block to follow. The extension contains only
       one data sub-block.
-
       This block is OPTIONAL; at most one Graphic Control Extension may precede
       a graphic rendering block. This is the only limit to the number of
       Graphic Control Extensions that may be contained in a Data Stream.
-
       b. Required Version.  89a.
-
       c. Syntax.
-
       7 6 5 4 3 2 1 0        Field Name                    Type
      +---------------+
   0  |               |       Extension Introducer          Byte
      +---------------+
   1  |               |       Graphic Control Label         Byte
      +---------------+
-
      +---------------+
   0  |               |       Block Size                    Byte
      +---------------+
@@ -200,31 +180,23 @@ RAWMODE = {
      +---------------+
   4  |               |       Transparent Color Index       Byte
      +---------------+
-
      +---------------+
   0  |               |       Block Terminator              Byte
      +---------------+
-
-
       <Packed Fields>  =     Reserved                      3 Bits
                              Disposal Method               3 Bits
                              User Input Flag               1 Bit
                              Transparent Color Flag        1 Bit
-
             i) Extension Introducer - Identifies the beginning of an extension
             block. This field contains the fixed packedue 0x21.
-
             ii) Graphic Control Label - Identifies the current block as a
             Graphic Control Extension. This field contains the fixed packedue
             0xF9.
-
             iii) Block Size - Number of bytes in the block, after the Block
             Size field and up to but not including the Block Terminator.  This
             field contains the fixed packedue 4.
-
             iv) Disposal Method - Indicates the way in which the graphic is to
             be treated after being displayed.
-
             packedues :    0 -   No disposal specified. The decoder is
                               not required to take any action.
                         1 -   Do not dispose. The graphic is to be left
@@ -235,38 +207,30 @@ RAWMODE = {
                               restore the area overwritten by the graphic with
                               what was there prior to rendering the graphic.
                      4-7 -    To be defined.
-
             v) User Input Flag - Indicates whether or not user input is
             expected before continuing. If the flag is set, processing will
             continue when user input is entered. The nature of the User input
             is determined by the application (Carriage Return, Mouse Button
             Click, etc.).
-
             packedues :    0 -   User input is not expected.
                         1 -   User input is expected.
-
             When a Delay Time is used and the User Input Flag is set,
             processing will continue when user input is received or when the
             delay time expires, whichever occurs first.
-
             vi) Transparency Flag - Indicates whether a transparency index is
             given in the Transparent Index field. (This field is the least
             significant bit of the byte.)
-
             packedues :    0 -   Transparent Index is not given.
                         1 -   Transparent Index is given.
-
             vii) Delay Time - If not 0, this field specifies the number of
             hundredths (1/100) of a second to wait before continuing with the
             processing of the Data Stream. The clock starts ticking immediately
             after the graphic is rendered. This field may be used in
             conjunction with the User Input Flag field.
-
             viii) Transparency Index - The Transparency Index is such that when
             encountered, the corresponding pixel of the display device is not
             modified and processing goes on to the next pixel. The index is
             present if and only if the Transparency Flag is set to 1.
-
             ix) Block Terminator - This zero-length data block marks the end of
 			the Graphic Control Extension.
 """
@@ -642,6 +606,5 @@ def saveAnimated(filename, imgs, delay):
 Consider the following:
 	Application extention. This part specifies the amount of loops.
 	If loops is 0 or inf, it goes on infinitely.
-
 	
 """
